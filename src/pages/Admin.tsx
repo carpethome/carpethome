@@ -372,11 +372,19 @@ function ProductsTab() {
   }
 
   const handleDeleteImage = async (imageId: string, imageUrl: string) => {
+
     const path = imageUrl.split('/product-images/')[1]
+
     if (path) await supabase.storage.from('product-images').remove([path])
+
     await supabase.from('product_images').delete().eq('id', imageId)
-    fetchProducts()
+
+    await fetchProducts()
+
+    setEditingProduct(prev => prev ? { ...prev, images: prev.images?.filter(img => img.id !== imageId) } : prev)
+
     toast.success('تم حذف الصورة')
+
   }
 
   const openEdit = (product: Product) => {
