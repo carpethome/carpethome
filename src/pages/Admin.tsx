@@ -168,20 +168,24 @@ export default function Admin() {
     }
   }, [])
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setTimeout(() => {
-      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        setIsAuthenticated(true)
-        sessionStorage.setItem('admin_session', 'authenticated')
-        toast.success('تم تسجيل الدخول بنجاح')
-      } else {
-        toast.error('البريد الإلكتروني أو كلمة المرور غير صحيحة')
-      }
-      setIsLoading(false)
-    }, 500)
+  const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault()
+  setIsLoading(true)
+  try {
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    if (!error) {
+      setIsAuthenticated(true)
+      sessionStorage.setItem('admin_session', 'authenticated')
+      toast.success('تم تسجيل الدخول بنجاح')
+    } else {
+      toast.error('البريد الإلكتروني أو كلمة المرور غير صحيحة')
+    }
+  } catch (err) {
+    toast.error('حدث خطأ')
+  } finally {
+    setIsLoading(false)
   }
+}
 
   const handleLogout = () => {
     setIsAuthenticated(false)
