@@ -71,7 +71,7 @@ img {
 .hero-section {
   position: relative;
   min-height: auto;
-  padding-top: 81px;
+  padding-top: 44px;
   overflow: hidden;
 }
 
@@ -497,7 +497,7 @@ img {
   }
 
   .hero-section {
-    padding-top: 81px;
+    padding-top: 44px;
   }
 
   .luxury-card:hover {
